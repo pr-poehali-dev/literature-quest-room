@@ -33,6 +33,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState<Tab>("instruction");
   const [tasks, setTasks] = useState(TASKS);
   const [revealedHints, setRevealedHints] = useState<number[]>([]);
+  const [heroName, setHeroName] = useState("");
 
   const completedCount = tasks.filter((t) => t.done).length;
   const progress = Math.round((completedCount / tasks.length) * 100);
@@ -363,6 +364,15 @@ const Index = () => {
                       <div className="bg-white/25 rounded-2xl p-3 mb-4">
                         <p className="text-white font-black text-base">🎁 Иди за главным призом!</p>
                       </div>
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          value={heroName}
+                          onChange={(e) => setHeroName(e.target.value)}
+                          placeholder="Введи имя героя для диплома..."
+                          className="w-full rounded-2xl px-4 py-3 text-purple-800 font-bold text-base bg-white border-2 border-white/50 placeholder:text-purple-300 outline-none focus:border-yellow-300"
+                        />
+                      </div>
                       <button
                         onClick={() => {
                           const date = new Date().toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" });
@@ -397,7 +407,7 @@ const Index = () => {
                               <hr class="divider">
                               <div class="body-text">
                                 Настоящий диплом подтверждает, что<br>
-                                <span class="highlight">юный искатель приключений</span><br>
+                                <span class="highlight">${heroName ? heroName : "юный искатель приключений"}</span><br>
                                 успешно прошёл сказочный квест<br>
                                 и разгадал все загадки волшебного замка!
                               </div>
