@@ -360,9 +360,67 @@ const Index = () => {
                           </div>
                         ))}
                       </div>
-                      <div className="bg-white/25 rounded-2xl p-3">
+                      <div className="bg-white/25 rounded-2xl p-3 mb-4">
                         <p className="text-white font-black text-base">🎁 Иди за главным призом!</p>
                       </div>
+                      <button
+                        onClick={() => {
+                          const date = new Date().toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" });
+                          const win = window.open("", "_blank");
+                          if (!win) return;
+                          win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Диплом</title>
+                          <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@700;900&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+                          <style>
+                            * { margin: 0; padding: 0; box-sizing: border-box; }
+                            body { background: #fff8f0; font-family: 'Nunito', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+                            .diploma { width: 794px; min-height: 560px; background: white; border-radius: 24px; padding: 48px; text-align: center; position: relative; box-shadow: 0 8px 40px rgba(0,0,0,0.12); border: 6px solid #f97316; outline: 3px solid #fbbf24; outline-offset: 6px; }
+                            .badge { font-size: 72px; margin-bottom: 8px; display: block; }
+                            .title { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 42px; background: linear-gradient(135deg, #7c3aed, #ec4899, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+                            .subtitle { font-size: 18px; color: #7c3aed; font-weight: 800; margin-bottom: 28px; }
+                            .body-text { font-size: 20px; color: #374151; font-weight: 600; line-height: 1.6; margin-bottom: 28px; }
+                            .highlight { color: #7c3aed; font-weight: 800; }
+                            .achievements { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+                            .ach { background: linear-gradient(135deg, #f3e8ff, #fce7f3); border: 2px solid #e9d5ff; border-radius: 16px; padding: 10px 16px; font-size: 14px; font-weight: 700; color: #6b21a8; display: flex; align-items: center; gap: 6px; }
+                            .divider { border: none; height: 3px; background: linear-gradient(90deg, #7c3aed, #ec4899, #f97316); border-radius: 4px; margin: 0 auto 24px; width: 200px; }
+                            .date { font-size: 15px; color: #9ca3af; font-weight: 600; }
+                            .stamp { position: absolute; bottom: 40px; right: 48px; width: 90px; height: 90px; border: 4px solid #f97316; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; transform: rotate(15deg); opacity: 0.85; }
+                            .stars { font-size: 24px; letter-spacing: 6px; margin-bottom: 16px; }
+                            @media print { body { background: white; padding: 0; } .diploma { box-shadow: none; } .print-btn { display: none; } }
+                            .print-btn { margin-top: 24px; display: inline-block; background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; border: none; padding: 14px 32px; border-radius: 16px; font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; }
+                          </style></head><body>
+                          <div>
+                            <div class="diploma">
+                              <div class="stars">⭐🌟⭐🌟⭐</div>
+                              <span class="badge">🏆</span>
+                              <div class="title">ДИПЛОМ ГЕРОЯ</div>
+                              <div class="subtitle">Квест «Тайна Волшебного Замка»</div>
+                              <hr class="divider">
+                              <div class="body-text">
+                                Настоящий диплом подтверждает, что<br>
+                                <span class="highlight">юный искатель приключений</span><br>
+                                успешно прошёл сказочный квест<br>
+                                и разгадал все загадки волшебного замка!
+                              </div>
+                              <div class="achievements">
+                                <div class="ach">🐺 Хитрец</div>
+                                <div class="ach">👠 Наблюдатель</div>
+                                <div class="ach">🍎 Следопыт</div>
+                                <div class="ach">🐸 Стрелок</div>
+                                <div class="ach">🌹 Романтик</div>
+                                <div class="ach">🎖️ Чемпион</div>
+                              </div>
+                              <div class="date">Выдан ${date}</div>
+                              <div class="stamp">🌟</div>
+                            </div>
+                            <button class="print-btn" onclick="window.print()">🖨️ Распечатать диплом</button>
+                          </div>
+                          </body></html>`);
+                          win.document.close();
+                        }}
+                        className="w-full bg-white text-orange-500 font-rubik font-black text-lg py-3.5 rounded-2xl border-2 border-white/50 hover:bg-white/90 transition-all shadow-lg flex items-center justify-center gap-2"
+                      >
+                        <Icon name="Printer" size={22} /> Распечатать диплом
+                      </button>
                     </div>
                   </div>
                 </div>
