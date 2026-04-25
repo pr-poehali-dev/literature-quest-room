@@ -327,10 +327,44 @@ const Index = () => {
                 </button>
               ))}
               {completedCount === tasks.length && (
-                <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-3xl p-6 text-center shadow-xl border-2 border-yellow-500 animate-bounce-in">
-                  <div className="text-5xl mb-2 animate-float">🏆</div>
-                  <h3 className="font-rubik font-black text-white text-2xl mb-1">Квест пройден!</h3>
-                  <p className="text-yellow-100 font-semibold">Ты настоящий герой! Иди за призом! 🎉</p>
+                <div className="animate-bounce-in">
+                  {/* Confetti-style decorations */}
+                  <div className="relative rounded-3xl overflow-hidden border-4 border-yellow-400 shadow-2xl">
+                    <div className="bg-gradient-to-br from-yellow-400 via-orange-400 to-pink-500 p-8 text-center">
+                      {/* Stars row */}
+                      <div className="flex justify-center gap-2 mb-4">
+                        {["⭐","🌟","⭐","🌟","⭐"].map((s, i) => (
+                          <span key={i} className="text-2xl animate-float" style={{ animationDelay: `${i * 0.15}s` }}>{s}</span>
+                        ))}
+                      </div>
+                      <div className="text-7xl mb-3 animate-float">🏆</div>
+                      <h3 className="font-rubik font-black text-white text-3xl mb-2 drop-shadow-md">
+                        Квест пройден!
+                      </h3>
+                      <p className="text-yellow-100 font-bold text-lg mb-5">
+                        Ты настоящий сказочный герой! 🦸‍♂️✨
+                      </p>
+                      {/* Achievements */}
+                      <div className="grid grid-cols-3 gap-2 mb-5">
+                        {[
+                          { emoji: "🐺", label: "Хитрец" },
+                          { emoji: "👠", label: "Наблюдатель" },
+                          { emoji: "🍎", label: "Следопыт" },
+                          { emoji: "🐸", label: "Стрелок" },
+                          { emoji: "🌹", label: "Романтик" },
+                          { emoji: "🎖️", label: "Чемпион" },
+                        ].map((a, i) => (
+                          <div key={i} className="bg-white/20 backdrop-blur-sm rounded-2xl p-2 text-center animate-star-pop" style={{ animationDelay: `${0.1 + i * 0.1}s` }}>
+                            <div className="text-2xl mb-0.5">{a.emoji}</div>
+                            <p className="text-white font-bold text-xs leading-tight">{a.label}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="bg-white/25 rounded-2xl p-3">
+                        <p className="text-white font-black text-base">🎁 Иди за главным призом!</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
