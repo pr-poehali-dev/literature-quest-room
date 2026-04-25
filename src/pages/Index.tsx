@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
+
+const TOTAL_SECONDS = 45 * 60;
 
 const QUEST_IMAGE = "https://cdn.poehali.dev/projects/d0debabf-112b-44f4-9176-35d794596c73/files/0e28544e-70e0-4993-986b-efe238509405.jpg";
 
@@ -32,6 +34,24 @@ const Index = () => {
 
   const completedCount = tasks.filter((t) => t.done).length;
   const progress = Math.round((completedCount / tasks.length) * 100);
+
+  const [timeLeft, setTimeLeft] = useState(TOTAL_SECONDS);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (timerRunning && timeLeft > 0) {
+      intervalRef.current = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    } else {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    }
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [timerRunning, timeLeft]);
+
+  const minutes = Math.floor(timeLeft / 60).toString().padStart(2, "0");
+  const seconds = (timeLeft % 60).toString().padStart(2, "0");
+  const timerUrgent = timeLeft <= 5 * 60 && timeLeft > 0;
+  const timerDone = timeLeft === 0;
 
   const toggleTask = (id: number) => {
     setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
@@ -83,6 +103,42 @@ const Index = () => {
             Стань героем и разгадай все загадки! 🦸
           </p>
         </header>
+
+        {/* Timer */}
+        <div className={`rounded-3xl p-4 mb-5 border-2 shadow-lg animate-fade-in flex items-center gap-4 ${
+          timerDone ? "bg-red-100 border-red-400" : timerUrgent ? "bg-red-50 border-red-300" : "bg-white/80 backdrop-blur-sm border-purple-200"
+        }`} style={{ animationDelay: "0.05s" }}>
+          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 ${
+            timerDone ? "bg-red-400" : timerUrgent ? "bg-orange-400 animate-wiggle" : "bg-gradient-to-br from-purple-500 to-pink-500"
+          }`}>
+            {timerDone ? "⏰" : "⏱️"}
+          </div>
+          <div className="flex-1">
+            <p className="text-xs font-bold text-purple-500 uppercase tracking-wide mb-0.5">Осталось времени</p>
+            <p className={`font-rubik font-black text-4xl leading-none ${
+              timerDone ? "text-red-500" : timerUrgent ? "text-orange-500" : "text-purple-700"
+            }`}>
+              {timerDone ? "Время вышло!" : `${minutes}:${seconds}`}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={() => setTimerRunning((v) => !v)}
+              disabled={timerDone}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold transition-all ${
+                timerDone ? "bg-gray-300 cursor-not-allowed" : timerRunning ? "bg-orange-400 hover:bg-orange-500" : "bg-green-400 hover:bg-green-500"
+              }`}
+            >
+              <Icon name={timerRunning ? "Pause" : "Play"} size={18} />
+            </button>
+            <button
+              onClick={() => { setTimeLeft(TOTAL_SECONDS); setTimerRunning(false); }}
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-purple-600 bg-purple-100 hover:bg-purple-200 transition-all"
+            >
+              <Icon name="RotateCcw" size={16} />
+            </button>
+          </div>
+        </div>
 
         {/* Progress bar */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-4 mb-5 border-2 border-purple-200 shadow-lg animate-fade-in" style={{ animationDelay: "0.1s" }}>
